@@ -252,9 +252,12 @@ class _FastText():
             qnorm
         )
 
-    def get_bag(self, s):
+    def get_bag(self, s, device=None):
         bag, offsets = self.f.getBag(s)
-        return torch.LongTensor(bag), torch.LongTensor(offsets)
+        if device is None:
+            return torch.LongTensor(bag), torch.LongTensor(offsets)
+        else:
+            return torch.LongTensor(bag).to(device), torch.LongTensor(offsets).to(device)
 
 
 # TODO:
