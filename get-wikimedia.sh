@@ -17,27 +17,27 @@ normalize_text() {
         -e 's/«/ /g' | tr 0-9 " "
 }
 
-export LANGUAGE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+export LANGUAGE=C.UTF-8
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
 
 NOW=$(date +"%Y%m%d")
 
-ROOT="data/wikimedia/${NOW}"
+read -r -p "Choose a language (e.g. en, bh, fr, etc.): " choice
+ROOT="data/${choice}_wiki_ft"
 mkdir -p "${ROOT}"
 echo "Saving data in ""$ROOT"
-read -r -p "Choose a language (e.g. en, bh, fr, etc.): " choice
 LANG="$choice"
 echo "Chosen language: ""$LANG"
 read -r -p "Continue to download (WARNING: This might be big and can take a long time!)(y/n)? " choice
-case "$choice" in 
+case "$choice" in
   y|Y ) echo "Starting download...";;
   n|N ) echo "Exiting";exit 1;;
   * ) echo "Invalid answer";exit 1;;
 esac
-wget -c "https://dumps.wikimedia.org/""$LANG""wiki/latest/""${LANG}""wiki-latest-pages-articles.xml.bz2" -P "${ROOT}"
-echo "Processing ""$ROOT"/"$LANG""wiki-latest-pages-articles.xml.bz2"
-bzip2 -c -d "$ROOT"/"$LANG""wiki-latest-pages-articles.xml.bz2" | awk '{print tolower($0);}' | perl -e '
+wget -c "https://dumps.wikimedia.org/""$LANG""wiki/20180901/""${LANG}""wiki-20180901-pages-articles.xml.bz2" -P "${ROOT}"
+echo "Processing ""$ROOT"/"$LANG""wiki-20180901-pages-articles.xml.bz2"
+bzip2 -c -d "$ROOT"/"$LANG""wiki-20180901-pages-articles.xml.bz2" | awk '{print tolower($0);}' | perl -e '
 # Program to filter Wikipedia XML dumps to "clean" text consisting only of lowercase
 # letters (a-z, converted from A-Z), and spaces (never consecutive)...
 # All other characters are converted to spaces.  Only text which normally appears.
