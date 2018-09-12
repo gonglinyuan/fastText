@@ -330,5 +330,18 @@ PYBIND11_MODULE(fasttext_pybind, m) {
             std::shared_ptr<const fasttext::Dictionary> d = m.getDictionary();
             return d->getSubwords(wordId);
           })
+      .def(
+          "getBag",
+          [](fasttext::FastText& m, const std::vector<int32_t> s) {
+            std::vector<int32_t> bag, offsets;
+            std::shared_ptr<const fasttext::Dictionary> d = m.getDictionary();
+            for (int32_t w : s) {
+                offsets.push_back((int32_t) bag.size());
+                const std::vector<int32_t> vec = d->getSubwords(w);
+                bag.insert(bag.end(), vec.begin(), vec.end());
+            }
+            return std::pair<std::vector<int32_t>, std::vector<int32_t>>(
+                    bag, offsets);
+          })
       .def("isQuant", [](fasttext::FastText& m) { return m.isQuant(); });
 }

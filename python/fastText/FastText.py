@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 
 import fasttext_pybind as fasttext
 import numpy as np
+import torch
 
 loss_name = fasttext.loss_name
 model_name = fasttext.model_name
@@ -250,6 +251,10 @@ class _FastText():
             input, qout, cutoff, retrain, epoch, lr, thread, verbose, dsub,
             qnorm
         )
+
+    def get_bag(self, s):
+        bag, offsets = self.f.getBag(s)
+        return torch.LongTensor(bag), torch.LongTensor(offsets)
 
 
 # TODO:
