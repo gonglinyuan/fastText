@@ -324,5 +324,11 @@ PYBIND11_MODULE(fasttext_pybind, m) {
             return std::pair<std::vector<std::string>, std::vector<int32_t>>(
                 subwords, ngrams);
           })
+      .def(
+          "getSubwords2",
+          [](fasttext::FastText& m, int32_t wordId) {
+            std::shared_ptr<const fasttext::Dictionary> d = m.getDictionary();
+            return d->getSubwords(wordId);
+          })
       .def("isQuant", [](fasttext::FastText& m) { return m.isQuant(); });
 }
