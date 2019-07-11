@@ -11,7 +11,6 @@ from __future__ import unicode_literals
 
 import fasttext_pybind as fasttext
 import numpy as np
-import torch
 import multiprocessing
 import sys
 from itertools import chain
@@ -284,11 +283,7 @@ class _FastText(object):
         )
 
     def get_bag(self, s, device=None):
-        bag, offsets = self.f.getBag(s)
-        if device is None:
-            return torch.LongTensor(bag), torch.LongTensor(offsets)
-        else:
-            return torch.LongTensor(bag).to(device), torch.LongTensor(offsets).to(device)
+        return self.f.getBag(s)
 
     @property
     def words(self):
