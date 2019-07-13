@@ -397,7 +397,7 @@ PYBIND11_MODULE(fasttext_pybind, m) {
             std::shared_ptr<const fasttext::Dictionary> d = m.getDictionary();
             for (int32_t w : s) {
                 offsets.push_back((int32_t) bag.size());
-                const std::vector<int32_t> vec = d->getSubwords(w);
+                const std::vector<int32_t> vec = d->getSubwords2(w);
                 bag.insert(bag.end(), vec.begin(), vec.end());
             }
             return std::pair<std::vector<int32_t>, std::vector<int32_t>>(

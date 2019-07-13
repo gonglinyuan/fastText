@@ -7,3 +7,4 @@ fasttext
 result
 .idea
 cmake-build-debug
+.vscode

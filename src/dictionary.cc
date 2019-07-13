@@ -88,6 +88,15 @@ const std::vector<int32_t>& Dictionary::getSubwords(int32_t i) const {
   return words_[i].subwords;
 }
 
+const std::vector<int32_t> Dictionary::getSubwords2(int32_t i) const {
+  assert(i >= 0);
+  if (i < nwords_) {
+    return words_[i].subwords;
+  } else {
+    return std::vector<int32_t>({args_->bucket + i});
+  }
+}
+
 const std::vector<int32_t> Dictionary::getSubwords(
     const std::string& word) const {
   int32_t i = getId(word);
